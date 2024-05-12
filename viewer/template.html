@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/d3-flame-graph@4.1.3/dist/d3-flamegraph.css"
+    />
+  </head>
+  <body>
+    <div id="chart"></div>
+    <div id="list" style="margin-top: 1rem"></div>
+    <script type="text/javascript" src="https://d3js.org/d3.v7.js"></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/d3-flame-graph@4.1.3/dist/d3-flamegraph.min.js"
+    ></script>
+    <script type="text/javascript">
+      const ViewData = $VIEW_DATA;
+      const ListData = $LIST_DATA;
+
+      const chart = flamegraph().width(960);
+      chart.setLabelHandler(function (d) {
+        return [d.data.name, "(" + d.data.value + "ms)"].join(" ");
+      });
+
+      d3.select("#chart").datum(ViewData).call(chart);
+
+      d3.select("#list")
+        .selectAll("div")
+        .data(ListData)
+        .enter()
+        .append("pre")
+        .text((d) => d);
+    </script>
+  </body>
+</html>
